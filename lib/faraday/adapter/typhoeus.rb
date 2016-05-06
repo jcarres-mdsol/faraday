@@ -11,6 +11,10 @@ module Faraday
 
       def call(env)
         super
+        Rails.logger.info("Typhoeus about to send the request")
+        Rails.logger.info("Environment: #{env}")
+        Rails.logger.info("Request: #{env.request}")
+        Rails.logger.info("Headers: #{env.request_headers}")
         perform_request env
         @app.call env
       end

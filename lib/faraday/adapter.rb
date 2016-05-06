@@ -41,6 +41,10 @@ module Faraday
     self.supports_parallel = false
 
     def call(env)
+      Rails.logger.info("Faraday about to send the request")
+      Rails.logger.info("Environment: #{env}")
+      Rails.logger.info("Request: #{env.request}")
+      Rails.logger.info("Headers: #{env.request_headers}")
       if !env[:body] and Connection::METHODS_WITH_BODIES.include? env[:method]
         # play nice and indicate we're sending an empty body
         env[:request_headers][CONTENT_LENGTH] = "0"

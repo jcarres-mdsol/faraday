@@ -80,6 +80,7 @@ module Faraday
 
     # Locks the middleware stack to ensure no further modifications are possible.
     def lock!
+      Rails.logger.info("Faraday middleware frozen #{@handlers}")
       @handlers.freeze
     end
 
@@ -111,6 +112,7 @@ module Faraday
     ## methods to push onto the various positions in the stack:
 
     def insert(index, *args, &block)
+      Rails.logger.info("Added Faraday middleware #{args}")
       raise_if_locked
       index = assert_index(index)
       handler = self.class::Handler.new(*args, &block)
@@ -143,6 +145,7 @@ module Faraday
     end
 
     def use_symbol(mod, key, *args, &block)
+      Rails.logger.info("Added Faraday middleware symbol #{mod}, #{key}")
       use(mod.lookup_middleware(key), *args, &block)
     end
 

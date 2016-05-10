@@ -10,12 +10,14 @@ module Faraday
       dependency 'typhoeus'
 
       def call(env)
+        Rails.logger.info("Typhoeus about to call super")
         super
         Rails.logger.info("Typhoeus about to send the request")
         Rails.logger.info("Environment: #{env}")
         Rails.logger.info("Request: #{env.request}")
         Rails.logger.info("Headers: #{env.request_headers}")
         perform_request env
+        Rails.logger.info("Typhoeus performed the request")
         @app.call env
       end
 

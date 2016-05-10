@@ -27,7 +27,9 @@ module Faraday
       NET_HTTP_EXCEPTIONS << Net::OpenTimeout if defined?(Net::OpenTimeout)
 
       def call(env)
+        Rails.logger.info("NetHTTP about to call super")
         super
+        Rails.logger.info("NetHTTP creating connection")
         http = net_http_connection(env)
         configure_ssl(http, env[:ssl]) if env[:url].scheme == 'https' and env[:ssl]
 
@@ -35,9 +37,11 @@ module Faraday
         http.read_timeout = http.open_timeout = req[:timeout] if req[:timeout]
         http.open_timeout = req[:open_timeout]                if req[:open_timeout]
 
+        Rails.logger.info("NetHTTP request #{req}")
         begin
           http_response = perform_request(http, env)
         rescue *NET_HTTP_EXCEPTIONS
+          Rails.logger.info("NetHTTP request failed")
           raise Error::ConnectionFailed, $!
         end
 

@@ -53,9 +53,9 @@ module Faraday
 
     def save_response(env, status, body, headers = nil)
       Rails.logger.info("Faraday got status: #{status}")
-      Rails.logger.info("Faraday got body: #{body}")
+      #Rails.logger.info("Faraday got body: #{body}")
       Rails.logger.info("Faraday got headers: #{headers}")
-      Rails.logger.info("Faraday got env: #{env}")
+      #Rails.logger.info("Faraday got env: #{env}")
       env[:status] = status
       env[:body] = body
       env[:response_headers] = Utils::Headers.new.tap do |response_headers|

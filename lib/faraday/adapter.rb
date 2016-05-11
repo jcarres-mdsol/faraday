@@ -41,6 +41,7 @@ module Faraday
     self.supports_parallel = false
 
     def call(env)
+      Rails.logger.info("Faraday adapter #{caller_locations}")
       Rails.logger.info("Faraday about to send the request")
       Rails.logger.info("Environment: #{env}")
       if !env[:body] and Connection::METHODS_WITH_BODIES.include? env[:method]

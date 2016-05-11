@@ -27,6 +27,7 @@ module Faraday
       NET_HTTP_EXCEPTIONS << Net::OpenTimeout if defined?(Net::OpenTimeout)
 
       def call(env)
+        Rails.logger.info("Faraday NetHTTP #{caller_locations}")
         Rails.logger.info("NetHTTP about to call super")
         super
         Rails.logger.info("NetHTTP creating connection")

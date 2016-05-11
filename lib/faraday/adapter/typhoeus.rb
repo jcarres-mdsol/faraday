@@ -10,6 +10,7 @@ module Faraday
       dependency 'typhoeus'
 
       def call(env)
+        Rails.logger.info("typhoeus adapter #{caller_locations}")
         Rails.logger.info("Typhoeus about to call super")
         super
         Rails.logger.info("Typhoeus about to send the request")
@@ -37,6 +38,7 @@ module Faraday
       end
 
       def request(env)
+        Rails.logger.info("Typhoeus request")
         method = env[:method]
         # For some reason, prevents Typhoeus from using "100-continue".
         # We want this because Webrick 1.3.1 can't seem to handle it w/ PUT.
@@ -61,6 +63,7 @@ module Faraday
             end
           end
 
+          Rails.logger.info("Typhoeus request completed")
           case resp.curl_return_code
           when 0
             # everything OK
